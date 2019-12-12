@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;  
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 
 public class DataProcessing {
@@ -79,6 +80,7 @@ public class DataProcessing {
 	public void translate()
 	{
 		String[] arrOfStr;
+		BitSet buffer = new BitSet();
 		int length = tree.Huffman_table.size();
 		d.WriteToFile("\n");
 		for (int i = 0; i < charArray.length; i++) {
@@ -90,6 +92,8 @@ public class DataProcessing {
 				{
 					System.out.print(arrOfStr[1]);
 					d.WriteToFile(arrOfStr[1]);
+					////for each bit 
+					///buffer.put(bitIndex++, bit)
 				}
 			}
 		}
