@@ -75,12 +75,12 @@ public class DataProcessing {
 		
 		tree.buildHuffman(countOfChar, chars); 
 		translate();
+		
 	  }
 	
 	public void translate()
 	{
 		String[] arrOfStr;
-		BitSet buffer = new BitSet();
 		int length = tree.Huffman_table.size();
 		d.WriteToFile("\n");
 		for (int i = 0; i < charArray.length; i++) {
@@ -91,9 +91,7 @@ public class DataProcessing {
 				if(charArray[i] == arrOfStr[0].charAt(0))
 				{
 					System.out.print(arrOfStr[1]);
-					d.WriteToFile(arrOfStr[1]);
-					////for each bit 
-					///buffer.put(bitIndex++, bit)
+					d.Str_Compress(arrOfStr[1]);
 				}
 			}
 		}

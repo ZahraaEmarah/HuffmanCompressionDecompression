@@ -80,7 +80,9 @@ public class huffmanTree {
 			&& Character.isLetter(root.character)) 
 		{ 
 			// c is the character in the node 
-			c.WriteToFile(root.character + ":" + s + "-");
+			c.WriteToFile(root.character + ":" );
+			c.Str_Compress(s);
+			c.WriteToFile(" ");
 			Huffman_table.add(root.character+ ":" + s);
 			System.out.println(Huffman_table.get(i++).toString());
 			return; 

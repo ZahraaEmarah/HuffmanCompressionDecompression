@@ -1,8 +1,10 @@
 package huffman;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class Compression {
 	
@@ -29,6 +31,33 @@ public class Compression {
 
         	br.close();
         	fr.close();
+        	}
+        catch(Exception e)
+        {
+        	e.printStackTrace();
+        }
+	}
+	
+	public void Str_Compress(String line) {
+		
+        try {
+        	BitSet buffer = new BitSet();
+        	int bitIndex = 0;
+        	FileOutputStream fos = new FileOutputStream(new File("compressed.txt"),true);
+        	
+        	for(int i=0; i< line.length();i++)
+        	{
+        		if (line.charAt(i) == '1') {
+        		    buffer.set(bitIndex);
+        		} else {
+        		    buffer.clear(bitIndex);
+        		}
+        		bitIndex ++;
+        	}
+        	System.out.println("b "+buffer.toByteArray());
+        	
+        	fos.write(buffer.toByteArray());
+        	fos.close();
         	}
         catch(Exception e)
         {
