@@ -12,19 +12,21 @@ public class DataProcessing {
 	ArrayList<Character> chars = new ArrayList<Character>();
 	huffmanTree tree = new huffmanTree();
 	Compression d = new Compression();
+	int original_size=0;
+	int compress_size = 0;
     
-	public void Read_data() {
+	public void Read_data(String filename) {
 		
 		String data = "";  
+		
 		
 		d.Clear_output_file();
 		
 	    try {
-	      File file = new File("original.txt");
+	      File file = new File(filename);
 	      Scanner myReader = new Scanner(file);
-	      while (myReader.hasNext()) {
-	         data = data + myReader.next();
-	         
+	      while (myReader.hasNextLine()) {
+	         data = data + myReader.nextLine(); 
 	      }
 	      myReader.close();
 	    } catch (FileNotFoundException e) {
@@ -37,7 +39,6 @@ public class DataProcessing {
 				chars.add(charArray[i]);
 			}
 		}
-		System.out.println(chars);
 		
 		tree.setNumberOfChar(chars.size());
 		
@@ -67,15 +68,19 @@ public class DataProcessing {
 					chars.set(j + 1, tempChar);
 				}
 			}
+			
+			
 		}
 		
 		for (int x = 0; x < countOfChar.length; x++) {
 			System.out.println(chars.get(x) + " - " + countOfChar[x]);
+            original_size += countOfChar[x];
 		}
 		
 		tree.buildHuffman(countOfChar, chars); 
+		d.WriteToFile("-");
 		translate();
-		
+		System.out.println("ORIGINAL SIZE IS " + (original_size*8));
 	  }
 	
 	public void translate()
@@ -90,11 +95,18 @@ public class DataProcessing {
 				arrOfStr = str.split(":", 2); 
 				if(charArray[i] == arrOfStr[0].charAt(0))
 				{
-					System.out.print(arrOfStr[1]);
-					d.Str_Compress(arrOfStr[1]);
+					compress_size += d.Str_Compress(arrOfStr[1]);
 				}
 			}
 		}
+		
+		System.out.println("COMPRESSED " +(compress_size + tree.table_size())/8);
 	}
 	
+	public String ratio()
+	{
+		double x = (original_size*8) / ((compress_size + tree.table_size())/8);
+       	
+		return Double.toString(x);
+	}
 }

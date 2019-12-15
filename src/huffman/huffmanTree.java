@@ -1,9 +1,13 @@
 package huffman;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+
+import javax.swing.JTextArea;
 
 
 
@@ -76,15 +80,15 @@ public class huffmanTree {
 	public  void printCode(node root, String s) 
 	{  
 	
-		if (root.left == null && root.right == null
-			&& Character.isLetter(root.character)) 
+		if (root.left == null && root.right == null ) 
 		{ 
 			// c is the character in the node 
 			c.WriteToFile(root.character + ":" );
+			//c.Str_Compress_char(Character.toString(root.character));
 			c.Str_Compress(s);
 			c.WriteToFile(" ");
 			Huffman_table.add(root.character+ ":" + s);
-			System.out.println(Huffman_table.get(i++).toString());
+	        System.out.println(Huffman_table.get(i++).toString());
 			return; 
 		} 
 		
@@ -101,6 +105,33 @@ public class huffmanTree {
 		this.numberOfChar = numberOfChar;
 	} 
 	
+	public String print_table() /// for writing the table in the textArea
+	{
+		String line ="";
+		for(int i=0; i < Huffman_table.size(); i++)
+		{
+			String str = Huffman_table.get(i).toString();
+			String arrOfStr[] = str.split(":", 2); 
+			int ascii = (int) arrOfStr[0].charAt(0);
+			line = line +" "+ ascii + "\t" +  "0" + Integer.toBinaryString(ascii)  +"\t" + arrOfStr[1] +"\n";
+
+		}
+		return line;
+	}
 	
+	public int table_size()
+	{
+		int table_size =0;
+		table_size = Huffman_table.size();
+		for(int i=0; i < Huffman_table.size(); i++)
+		{
+			String str = Huffman_table.get(i).toString();
+			String arrOfStr[] = str.split(":", 2); 
+		
+			table_size += arrOfStr[1].length();
+		}
+		
+		return table_size;
+	}
 
 }

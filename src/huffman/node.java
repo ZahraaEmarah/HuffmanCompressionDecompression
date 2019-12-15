@@ -5,6 +5,4 @@ public class node {
 	char character;
 	node left=null;
 	node right = null;
-	
-
 }
