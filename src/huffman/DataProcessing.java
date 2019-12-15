@@ -105,7 +105,7 @@ public class DataProcessing {
 	
 	public String ratio()
 	{
-		double x = (original_size*8) / ((compress_size + tree.table_size())/8);
+		float x = (original_size*8) / ((compress_size + tree.table_size())/8);
        	
 		return Double.toString(x);
 	}
