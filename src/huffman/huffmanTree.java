@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 import javax.swing.JTextArea;
 
+import compression.Compression;
+
 
 
 public class huffmanTree {
@@ -16,7 +18,9 @@ public class huffmanTree {
 	private int numberOfChar;
 	PriorityQueue<node> queue ;
 	Compression c = new Compression();
-	ArrayList<String> Huffman_table = new ArrayList<String>();
+	public String[] Huffman_codes; 
+	
+	int counter =0;
 	
 	//this class is used to implement huffman tree with its nodes using min heap as priority queue
 	
@@ -29,6 +33,8 @@ public class huffmanTree {
 	}
 	
 	public void buildHuffman(int[] countOfChar , ArrayList<Character> chars ){
+		Huffman_codes = new String[numberOfChar*2+1]; //size 58
+		System.out.println("NOO "+numberOfChar*2);
 		 queue  = new PriorityQueue<node>(numberOfChar, new compare()); //make the min heap as priority queue
 		 //build the min heap --QUEUE--
 		 node root = null;
@@ -79,16 +85,18 @@ public class huffmanTree {
 	int i=0;
 	public  void printCode(node root, String s) 
 	{  
-	
+		
 		if (root.left == null && root.right == null ) 
 		{ 
+			if(i < numberOfChar*2+1) {
 			// c is the character in the node 
-			c.WriteToFile(root.character + ":" );
-			//c.Str_Compress_char(Character.toString(root.character));
-			c.Str_Compress(s);
-			c.WriteToFile(" ");
-			Huffman_table.add(root.character+ ":" + s);
-	        System.out.println(Huffman_table.get(i++).toString());
+			Huffman_codes[i] = Character.toString(root.character);
+			System.out.println("new " + Huffman_codes[i]);
+			i++;
+			Huffman_codes[i] = s;
+			System.out.println("new " +Huffman_codes[i]);
+			i++;
+			}
 			return; 
 		} 
 		
@@ -108,17 +116,18 @@ public class huffmanTree {
 	public String print_table() /// for writing the table in the textArea
 	{
 		String line ="";
-		for(int i=0; i < Huffman_table.size(); i++)
+	
+		for(int i=0; i < Huffman_codes.length-1; i = i+2)
 		{
-			String str = Huffman_table.get(i).toString();
-			String arrOfStr[] = str.split(":", 2); 
-			int ascii = (int) arrOfStr[0].charAt(0);
-			line = line +" "+ ascii + "\t" +  "0" + Integer.toBinaryString(ascii)  +"\t" + arrOfStr[1] +"\n";
+			String character = Huffman_codes[i];
+			String code = Huffman_codes[i+1];
+			int ascii = (int) Huffman_codes[i].charAt(0);
+			line = line +" "+ ascii + "\t" +  "0" + Integer.toBinaryString(ascii)  +"\t" + code +"\n";
 
 		}
 		return line;
 	}
-	
+	/**
 	public int table_size()
 	{
 		int table_size =0;
@@ -132,6 +141,6 @@ public class huffmanTree {
 		}
 		
 		return table_size;
-	}
+	}**/
 
 }

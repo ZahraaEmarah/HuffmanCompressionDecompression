@@ -1,8 +1,8 @@
 package huffman;
 
 public class node {
-	int freq;
-	char character;
-	node left=null;
-	node right = null;
+	public int freq;
+	public char character;
+	public node left=null;
+	public node right = null;
 }

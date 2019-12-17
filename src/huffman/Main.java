@@ -9,6 +9,10 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import compression.DataProcessing;
+import decompression.Decompression;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -21,12 +25,14 @@ public class Main {
 	private JFrame frame;
 	DataProcessing d = new DataProcessing();
 	huffmanTree huff = new huffmanTree();
+	Decompression read = new Decompression();
 	private JTextField txtOriginaltxt;
 	public JPanel panel_1;
 	public JPanel panel;
 	private JTextArea textArea;
 	JLabel lbl1;
 	JLabel lbl2;
+	JButton btnBack;
 	/**
 	 * Launch the application.
 	 */
@@ -82,8 +88,9 @@ public class Main {
 				panel_1.setVisible(true);
 				lbl1.setVisible(true);
 				txtOriginaltxt.setVisible(false);
-			    textArea.append(d.tree.print_table());		
-			    lbl2.setText(d.ratio());
+			    textArea.append(d.tree.print_table());	
+			    btnBack.setVisible(true);
+			   // lbl2.setText(d.ratio());
 			}
 		});
 		panel.setLayout(null);
@@ -92,6 +99,11 @@ public class Main {
 		panel.add(btnCompress);
 		
 		JButton btnDecompress = new JButton("Decompress");
+		btnDecompress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				read.Read_file();
+			}
+		});
 		btnDecompress.setBounds(238, 159, 143, 42);
 		btnDecompress.setFont(new Font("Berlin Sans FB", Font.PLAIN, 16));
 		btnDecompress.setBackground(new Color(204, 153, 255));
@@ -163,5 +175,18 @@ public class Main {
 		lbl1.setBackground(new Color(204, 153, 255));
 		lbl1.setBounds(134, 18, 82, 14);
 		panel_1.add(lbl1);
+		
+		btnBack = new JButton("back");
+		btnBack.setBackground(new Color(204, 153, 255));
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnBack.setVisible(false);
+				panel_1.setVisible(false);
+				panel.setVisible(true);
+				txtOriginaltxt.setVisible(true);
+			}
+		});
+		btnBack.setBounds(271, 18, 89, 23);
+		panel_1.add(btnBack);
 	}
 }
