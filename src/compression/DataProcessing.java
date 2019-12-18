@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import decompression.Decompression;
@@ -27,8 +30,16 @@ public class DataProcessing {
 		String data = "";
 
 		d.Clear_output_file();
-
+		
 		try {
+			file = new File(filename);
+			data = new String(Files.readAllBytes(Paths.get(filename)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	/**	try {
 			
 			file = new File(filename);
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -42,7 +53,8 @@ public class DataProcessing {
 			br.close();
 		} catch (Exception e) {
 			System.out.println("File Not Found");
-		}
+			e.printStackTrace();
+		}**/
 
 		charArray = data.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
@@ -83,14 +95,13 @@ public class DataProcessing {
 		}
 
 		for (int x = 0; x < countOfChar.length; x++) {
-			System.out.println(chars.get(x) + " - " + countOfChar[x]);
+			//System.out.println(chars.get(x) + " - " + countOfChar[x]);
 			original_size += countOfChar[x];
 		}
 
 		tree.buildHuffman(countOfChar, chars);
-		d.WriteTableToFile(chars, countOfChar);
+		d.WriteTableToFile(chars, countOfChar); /// put table in file
 		d.Read_original_msg(data, tree.Huffman_codes); /// put msg in file
-		System.out.println("ORIGINAL SIZE IS " + (original_size * 8));
 	}
 
 	public float ratio() {
