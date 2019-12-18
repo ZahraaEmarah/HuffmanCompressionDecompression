@@ -20,6 +20,7 @@ public class DataProcessing {
 	Decompression read = new Decompression();
 	int original_size = 0;
 	int compress_size = 0;
+	File file;
 
 	public void Read_data(String filename) {
 
@@ -29,7 +30,7 @@ public class DataProcessing {
 
 		try {
 			
-			File file = new File(filename);
+			file = new File(filename);
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String currentLine;
 			
@@ -92,11 +93,11 @@ public class DataProcessing {
 		System.out.println("ORIGINAL SIZE IS " + (original_size * 8));
 	}
 
-	public String ratio() {
-		float x = (original_size * 8) / ((compress_size + tree.getNumberOfChar()) / 8);
-
-		return Double.toString(x);
-		// System.out.println("COMPRESSED " +(compress_size +
-		// tree.Huffman_codes.length)/8);
+	public float ratio() {
+		
+		float original = file.length();
+		float compressed = d.file1.length();
+		float ratio = original / compressed;		
+		return ratio;
 	}
 }

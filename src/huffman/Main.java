@@ -90,7 +90,7 @@ public class Main {
 				txtOriginaltxt.setVisible(false);
 			    textArea.append(d.tree.print_table());	
 			    btnBack.setVisible(true);
-			   // lbl2.setText(d.ratio());
+			    lbl2.setText(Float.toString(d.ratio()));
 			}
 		});
 		panel.setLayout(null);
@@ -161,11 +161,10 @@ public class Main {
 		panel_1.add(scrollPane);
 		
 		lbl2 = new JLabel("");
-		lbl2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl2.setForeground(new Color(204, 153, 255));
 		lbl2.setBackground(new Color(204, 153, 255));
 		lbl2.setFont(new Font("Bodoni MT", Font.PLAIN, 16));
-		lbl2.setBounds(165, 51, 56, 14);
+		lbl2.setBounds(165, 51, 195, 14);
 		panel_1.add(lbl2);
 		
 		lbl1 = new JLabel("");

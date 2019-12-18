@@ -18,11 +18,13 @@ public class Compression {
 	FileOutputStream fos, fos1;
 	BitSet buffer = new BitSet();
 	int bitIndex = 0;
+    File file1;
 
 	public void Clear_output_file() {
 		try {
 			String str = "";
-			FileWriter fw = new FileWriter("compressed.bin");
+			file1 = new File("compressed.bin");
+			FileWriter fw = new FileWriter(file1);
 			fw.write(str);
 			fw.close();
 		} catch (Exception e) {

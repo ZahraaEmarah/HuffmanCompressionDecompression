@@ -127,20 +127,5 @@ public class huffmanTree {
 		}
 		return line;
 	}
-	/**
-	public int table_size()
-	{
-		int table_size =0;
-		table_size = Huffman_table.size();
-		for(int i=0; i < Huffman_table.size(); i++)
-		{
-			String str = Huffman_table.get(i).toString();
-			String arrOfStr[] = str.split(":", 2); 
-		
-			table_size += arrOfStr[1].length();
-		}
-		
-		return table_size;
-	}**/
 
 }
