@@ -9,21 +9,20 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JCheckBox;
 
 public class Main {
 
 	private JFrame frame;
 	BinaryDecompression read = new BinaryDecompression();
 	BinaryCompression bin = new BinaryCompression();
+	folderClass f = new folderClass();
 	private JTextField txtOriginaltxt;
 	public JPanel start;
 	private JTextArea textArea;
@@ -32,6 +31,7 @@ public class Main {
 	JButton btnCompress;
 	JButton btnDecompress;
 	JLabel lblHuffman;
+	JCheckBox chckbxIsFolder;
 
 	/**
 	 * Launch the application.
@@ -78,14 +78,19 @@ public class Main {
 		btnCompress.setBounds(61, 152, 143, 26);
 		btnCompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				textArea.setText(" Byte" + "\t" + "Code" + "\t" + "New code" + "\n");
-				long startTime = System.currentTimeMillis();
-				bin.binC(txtOriginaltxt.getText());
-				long endTime = System.currentTimeMillis();
-				long totalTime = endTime - startTime;
-				lbl1.setText(Long.toString(totalTime));
-				textArea.append(bin.bintree.print_table());
-				lbl2.setText(Float.toString(bin.ratio()));
+
+				if (chckbxIsFolder.isEnabled()) {
+					f.compressFolder(txtOriginaltxt.getText());
+				} else {
+					textArea.setText(" Byte" + "\t" + "Code" + "\t" + "New code" + "\n");
+					long startTime = System.currentTimeMillis();
+					bin.binC(txtOriginaltxt.getText());
+					long endTime = System.currentTimeMillis();
+					long totalTime = endTime - startTime;
+					lbl1.setText(Long.toString(totalTime));
+					textArea.append(bin.bintree.print_table());
+					lbl2.setText(Float.toString(bin.ratio()));
+				}
 			}
 		});
 		start.setLayout(null);
@@ -96,7 +101,7 @@ public class Main {
 		btnDecompress = new JButton("Decompress");
 		btnDecompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				long startTime = System.currentTimeMillis();
 				read.DecodeTable(txtOriginaltxt.getText());
 				long endTime = System.currentTimeMillis();
@@ -117,12 +122,12 @@ public class Main {
 		start.add(lblHuffman);
 
 		txtOriginaltxt = new JTextField();
-		txtOriginaltxt.setBounds(195, 100, 194, 20);
+		txtOriginaltxt.setBounds(196, 86, 194, 20);
 		start.add(txtOriginaltxt);
 		txtOriginaltxt.setColumns(10);
 
 		JLabel lblEnterTheFile = new JLabel("Enter the file name: ");
-		lblEnterTheFile.setBounds(45, 99, 140, 20);
+		lblEnterTheFile.setBounds(47, 85, 140, 20);
 		start.add(lblEnterTheFile);
 		lblEnterTheFile.setForeground(new Color(204, 153, 255));
 		lblEnterTheFile.setFont(new Font("Bodoni MT", Font.PLAIN, 16));
@@ -171,6 +176,11 @@ public class Main {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(26, 198, 383, 2);
 		start.add(separator);
+
+		chckbxIsFolder = new JCheckBox("is Folder");
+		chckbxIsFolder.setBackground(new Color(51, 0, 51));
+		chckbxIsFolder.setForeground(new Color(204, 153, 255));
+		chckbxIsFolder.setBounds(196, 113, 97, 23);
+		start.add(chckbxIsFolder);
 	}
-	
 }

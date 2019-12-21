@@ -1,25 +1,16 @@
 package binaryHuffman;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
-
-import javax.imageio.ImageIO;
 
 public class BinaryCompression {
 
-	public BinaryHuffmanTree bintree ;
+	public BinaryHuffmanTree bintree;
 	FileOutputStream fos, fos1;
 	BitSet buffer = new BitSet();
 	int bitIndex = 0;
@@ -28,7 +19,6 @@ public class BinaryCompression {
 
 	public void binC(String filename) {
 
-		bintree = new BinaryHuffmanTree();
 		try {
 
 			byte[] b = Files.readAllBytes(Paths.get(filename));
@@ -48,6 +38,7 @@ public class BinaryCompression {
 
 	public void GenerateTable(Byte[] data) {
 		ArrayList<Byte> bytes = new ArrayList<Byte>();
+		bintree = new BinaryHuffmanTree();
 
 		for (int i = 0; i < data.length; i++) { /// number of distinct bytes
 			if (!(bytes.contains(data[i]))) {
