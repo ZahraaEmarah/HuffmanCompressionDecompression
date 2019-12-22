@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class BinaryHuffmanTree {
+public class HuffmanTree {
 	
 	private int numberOfChar;
-	PriorityQueue<BinaryNode> queue ;
+	PriorityQueue<Node> queue ;
 	public String[] Huffman_codes; 
 	
 	int counter =0;
 	
 	//this class is used to implement huffman tree with its nodes using min heap as priority queue
 	
-	class compare implements Comparator<BinaryNode> {  //compares between the frequencies of both x and y
-	    public int compare(BinaryNode x, BinaryNode y) 
+	class compare implements Comparator<Node> {  //compares between the frequencies of both x and y
+	    public int compare(Node x, Node y) 
 	    { 
 	  
 	        return (x.freq - y.freq);  //to add it to the priority queue
@@ -24,14 +24,14 @@ public class BinaryHuffmanTree {
 	
 	public void buildHuffman(int[] countOfChar , ArrayList<Byte> chars ){
 		Huffman_codes = new String[numberOfChar*2+1]; //size 58
-		 queue  = new PriorityQueue<BinaryNode>(numberOfChar, new compare()); //make the min heap as priority queue
+		 queue  = new PriorityQueue<Node>(numberOfChar, new compare()); //make the min heap as priority queue
 		 //build the min heap --QUEUE--
-		 BinaryNode root = null;
+		 Node root = null;
 		 for (int i = 0; i < numberOfChar; i++) { 
 			  
 	            // creating a Huffman node object 
 	            // and add it to the priority queue. 
-			 BinaryNode nodeH = new BinaryNode(); 
+			 Node nodeH = new Node(); 
 	  
 	            nodeH.byt = chars.get(i); 
 	           
@@ -49,14 +49,14 @@ public class BinaryHuffmanTree {
 		 {
 			 //extract the 2 minimum nodes from the queue
 			 //and remove them from the queue 
-			 BinaryNode first = queue.peek();
+			 Node first = queue.peek();
 			 queue.poll();
 			 
-			 BinaryNode second = queue.peek();
+			 Node second = queue.peek();
 			 queue.poll();
 			 
 			 //new node 
-			 BinaryNode newN = new BinaryNode();
+			 Node newN = new Node();
 			 
 			 newN.byt = '-';
 			 newN.freq = first.freq + second.freq ;
@@ -72,7 +72,7 @@ public class BinaryHuffmanTree {
 	
 	
 	int i=0;
-	public  void printCode(BinaryNode root, String s) 
+	public  void printCode(Node root, String s) 
 	{  
 		
 		if (root.left == null && root.right == null ) 
@@ -80,8 +80,10 @@ public class BinaryHuffmanTree {
 			if(i < numberOfChar*2+1) {
 			// c is the character in the node 
 			Huffman_codes[i] = Byte.toString(root.byt);
+			System.out.print(Huffman_codes[i] + " ");
 			i++;
 			Huffman_codes[i] = s;
+			System.out.println(Huffman_codes[i] + " ");
 			i++;
 			}
 			return; 

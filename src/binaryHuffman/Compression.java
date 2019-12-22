@@ -2,15 +2,16 @@ package binaryHuffman;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 
-public class BinaryCompression {
-
-	public BinaryHuffmanTree bintree;
+public class Compression {
+	public HuffmanTree bintree;
 	FileOutputStream fos, fos1;
 	BitSet buffer = new BitSet();
 	int bitIndex = 0;
@@ -38,7 +39,7 @@ public class BinaryCompression {
 
 	public void GenerateTable(Byte[] data) {
 		ArrayList<Byte> bytes = new ArrayList<Byte>();
-		bintree = new BinaryHuffmanTree();
+		bintree = new HuffmanTree();
 
 		for (int i = 0; i < data.length; i++) { /// number of distinct bytes
 			if (!(bytes.contains(data[i]))) {
@@ -88,24 +89,30 @@ public class BinaryCompression {
 
 			int extrabyte = 0;
 			fos = new FileOutputStream(new File("compressedBinary.bin"), false);
+			System.out.println("SENDING TABLE "+ chars.size() * 4);
 
-			if (chars.size() * 3 > 127) {
-				fos.write(bigIntToByteArray(chars.size() * 3));
+			if (chars.size() * 4 > 127) {
+				fos.write(bigIntToByteArray(chars.size() * 4));
 			} else {
 				fos.write(0);
-				fos.write(bigIntToByteArray(chars.size() * 3));
+				fos.write(bigIntToByteArray(chars.size() * 4));
 			}
 
 			for (int i = 0; i < chars.size(); i++) {
 				Byte bytee = chars.get(i);
 				fos.write(bytee); /// write byte
-				if (numberOfChar[i] <= 127) { /// write frequency
 
-					fos.write(extrabyte);
-					fos.write(numberOfChar[i]);
-
-				} else {
-
+				
+				if (numberOfChar[i] < 127) { /// write frequency
+					fos.write(0);
+					fos.write(0);
+					fos.write(bigIntToByteArray(numberOfChar[i]));
+				}
+				if (numberOfChar[i] > 127 && numberOfChar[i] < 32767) {
+					fos.write(0);
+					fos.write(bigIntToByteArray(numberOfChar[i]));
+				}
+				if (numberOfChar[i] > 32767 && numberOfChar[i] < 8388607) {
 					fos.write(bigIntToByteArray(numberOfChar[i]));
 				}
 
@@ -136,6 +143,9 @@ public class BinaryCompression {
 			fos1.close();
 			file1 = new File("compressedBinary.bin");
 
+			byte[] content = Files.readAllBytes(Paths.get("compressedBinary.bin"));
+			System.out.println(Arrays.toString(content));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -164,5 +174,4 @@ public class BinaryCompression {
 		float ratio = original / compressed;
 		return ratio;
 	}
-
 }

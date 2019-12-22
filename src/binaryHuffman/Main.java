@@ -10,6 +10,11 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -20,8 +25,8 @@ import javax.swing.JCheckBox;
 public class Main {
 
 	private JFrame frame;
-	BinaryDecompression read = new BinaryDecompression();
-	BinaryCompression bin = new BinaryCompression();
+	Decompression read = new Decompression();
+	Compression bin = new Compression();
 	folderClass f = new folderClass();
 	private JTextField txtOriginaltxt;
 	public JPanel start;
@@ -79,7 +84,8 @@ public class Main {
 		btnCompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (chckbxIsFolder.isEnabled()) {
+				clearTheFile();
+				if (chckbxIsFolder.isSelected()) {
 					f.compressFolder(txtOriginaltxt.getText());
 				} else {
 					textArea.setText(" Byte" + "\t" + "Code" + "\t" + "New code" + "\n");
@@ -103,7 +109,11 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 
 				long startTime = System.currentTimeMillis();
-				read.DecodeTable(txtOriginaltxt.getText());
+				if (chckbxIsFolder.isSelected()) {
+					read.DecodeTable(txtOriginaltxt.getText());
+				} else {
+					read.DecodeTable(txtOriginaltxt.getText());
+				}
 				long endTime = System.currentTimeMillis();
 				long totalTime = endTime - startTime;
 				lbl1.setText(Long.toString(totalTime));
@@ -182,5 +192,22 @@ public class Main {
 		chckbxIsFolder.setForeground(new Color(204, 153, 255));
 		chckbxIsFolder.setBounds(196, 113, 97, 23);
 		start.add(chckbxIsFolder);
+	}
+
+	public void clearTheFile() {
+
+		FileWriter fwOb;
+		try {
+			
+			fwOb = new FileWriter("compressedBinary.bin", false);
+			PrintWriter pwOb = new PrintWriter(fwOb, false);
+			pwOb.flush();
+			pwOb.close();
+			fwOb.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
